@@ -14,22 +14,25 @@ jobs:
       contents: read
 
     steps:
-      - uses: actions/checkout@v4
-      
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
-          
+
       - name: Run PMD
-        uses: pmd/pmd-github-action@v1
+        uses: pmd/pmd-github-action@d9c1f3c5940cbf5923f1354e83fa858b4496ebaa
         with:
-          version: '7.0.0-rc4'
-          sourcePath: 'src/main/java'
           rulesets: 'rulesets/java/quickstart.xml'
-          
+          sourcePath: 'src/main/java'
+          analyzeModifiedFilesOnly: false
+          format: 'sarif'
+          outputFile: 'pmd-report.sarif'
+
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@9e8d0789d4a0fa9ceb6b1738f7e269594bdd67f0
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: pmd-report.sarif
