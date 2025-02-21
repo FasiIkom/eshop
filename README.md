@@ -68,4 +68,3 @@ Setelah menulis unit test baru, saya mempelajari beberapa hal berikut:
    - Implementasi saat ini sudah memenuhi definisi **Continuous Integration (CI)** karena setiap perubahan kode yang dikirimkan akan langsung diuji melalui pipeline otomatis yang mencakup unit testing dan code analysis.
    - Untuk **Continuous Deployment (CD)**, sistem ini sudah memungkinkan deployment otomatis ke PaaS setelah pipeline berhasil dijalankan. Namun, ada beberapa perbaikan yang bisa dilakukan, seperti rollback otomatis jika deployment gagal.
    - Secara keseluruhan, pipeline CI/CD ini membantu mengurangi kesalahan manual dalam proses deployment, meningkatkan kecepatan rilis, dan memastikan bahwa hanya kode yang telah diuji yang masuk ke lingkungan produksi.
-
