@@ -68,3 +68,62 @@ Setelah menulis unit test baru, saya mempelajari beberapa hal berikut:
    - Implementasi saat ini sudah memenuhi definisi **Continuous Integration (CI)** karena setiap perubahan kode yang dikirimkan akan langsung diuji melalui pipeline otomatis yang mencakup unit testing dan code analysis.
    - Untuk **Continuous Deployment (CD)**, sistem ini sudah memungkinkan deployment otomatis ke PaaS setelah pipeline berhasil dijalankan. Namun, ada beberapa perbaikan yang bisa dilakukan, seperti rollback otomatis jika deployment gagal.
    - Secara keseluruhan, pipeline CI/CD ini membantu mengurangi kesalahan manual dalam proses deployment, meningkatkan kecepatan rilis, dan memastikan bahwa hanya kode yang telah diuji yang masuk ke lingkungan produksi.
+
+## Module 3
+### Principles Applied to the Project
+
+1. **Single Responsibility Principle (SRP)**
+   - Setiap kelas dan metode dalam proyek ini memiliki satu tanggung jawab yang jelas. Misalnya, `CarController` hanya bertanggung jawab untuk menangani permintaan HTTP terkait mobil, sementara `CarService` bertanggung jawab untuk logika bisnis terkait mobil.
+   - **Modifikasi yang telah dibuat:** Memisahkan tanggung jawab antara `CarController` dan `ProductController`. `CarController` hanya menangani permintaan HTTP terkait car, sedangkan `ProductController` menangani permintaan HTTP terkait product.
+
+2. **Open/Closed Principle (OCP)**
+   - Kelas dan modul dalam proyek ini dirancang agar terbuka untuk ekstensi tetapi tertutup untuk modifikasi. Misalnya, `CarService` adalah sebuah antarmuka yang dapat diimplementasikan oleh berbagai kelas tanpa mengubah antarmuka itu sendiri.
+   - **Modifikasi yang telah dibuat:** Menggunakan antarmuka `CarService` yang dapat diimplementasikan oleh berbagai kelas seperti `CarServiceImpl` dan `InMemoryCarService` tanpa mengubah antarmuka itu sendiri.
+
+3. **Liskov Substitution Principle (LSP)**
+   - Subkelas dapat menggantikan superclass mereka tanpa mengganggu fungsionalitas program. Misalnya, setiap implementasi `CarService` dapat digunakan di mana saja `CarService` diperlukan tanpa mempengaruhi logika aplikasi.
+   - **Modifikasi yang telah dibuat:** Memastikan bahwa setiap implementasi `CarService` dapat digunakan secara interchangeably tanpa mempengaruhi logika aplikasi. Contohnya, `CarServiceImpl` dan `InMemoryCarService` dapat digunakan di mana saja `CarService` diperlukan.
+
+4. **Interface Segregation Principle (ISP)**
+   - Antarmuka yang besar dipecah menjadi antarmuka yang lebih kecil dan lebih spesifik. Misalnya, `CarService` hanya memiliki metode yang relevan dengan operasi mobil, sehingga klien tidak dipaksa untuk bergantung pada metode yang tidak mereka gunakan.
+   - **Modifikasi yang telah dibuat:** Membuat interface `CarService` yang hanya memiliki metode yang relevan dengan operasi mobil, sehingga klien tidak dipaksa untuk bergantung pada metode yang tidak mereka gunakan.
+
+5. **Dependency Inversion Principle (DIP)**
+   - Modul tingkat tinggi tidak bergantung pada modul tingkat rendah, tetapi keduanya bergantung pada abstraksi. Misalnya, `CarController` bergantung pada `CarService` daripada `CarServiceImpl`, memungkinkan injeksi dependensi dan pengujian yang lebih mudah.
+   - **Modifikasi yang telah dibuat:** Menggunakan interface `CarService` di `CarController` dan menginjeksi dependensi menggunakan Spring's `@Autowired`, sehingga `CarController` tidak bergantung pada implementasi konkret `CarServiceImpl`.
+
+### Advantages of Applying SOLID Principles
+
+1. **Maintainability**
+   - Dengan memisahkan tanggung jawab dan menggunakan antarmuka, kode menjadi lebih mudah untuk dipelihara dan diperbarui. Misalnya, jika ada perubahan pada logika bisnis mobil, kita hanya perlu memperbarui `CarServiceImpl` tanpa mengubah `CarController`.
+   - **Modifikasi yang telah dibuat:** Memisahkan tanggung jawab antara `CarController` dan `CarService`, serta menggunakan antarmuka `CarService`.
+
+2. **Testability**
+   - Dengan menggunakan antarmuka dan injeksi dependensi, kita dapat dengan mudah membuat mock atau stub untuk pengujian unit. Misalnya, kita dapat menguji `CarController` dengan mock `CarService` tanpa bergantung pada implementasi konkret.
+   - **Modifikasi yang telah dibuat:** Menggunakan antarmuka `CarService` dan injeksi dependensi di `CarController`, memungkinkan penggunaan mock `CarService` untuk pengujian unit.
+
+3. **Flexibility and Extensibility**
+   - Kode yang mengikuti prinsip OCP dan DIP lebih mudah untuk diperluas tanpa mengubah kode yang ada. Misalnya, kita dapat menambahkan implementasi baru dari `CarService` untuk mendukung penyimpanan data yang berbeda tanpa mengubah `CarController`.
+   - **Modifikasi yang telah dibuat:** Menggunakan antarmuka `CarService` yang dapat diimplementasikan oleh berbagai kelas, memungkinkan penambahan implementasi baru tanpa mengubah kode yang ada.
+
+4. **Readability and Understandability**
+   - Kode yang mengikuti prinsip SRP dan ISP lebih mudah dibaca dan dipahami karena setiap kelas dan antarmuka memiliki tanggung jawab yang jelas dan spesifik.
+   - **Modifikasi yang telah dibuat:** Memisahkan tanggung jawab antara `CarController` dan `CarService`, serta membuat antarmuka `CarService` yang spesifik.
+
+### Disadvantages of Not Applying SOLID Principles
+
+1. **Tight Coupling**
+   - Tanpa DIP, modul tingkat tinggi akan bergantung pada modul tingkat rendah, membuat kode sulit untuk diuji dan dipelihara. Misalnya, jika `CarController` bergantung langsung pada `CarServiceImpl`, setiap perubahan pada `CarServiceImpl` dapat mempengaruhi `CarController`.
+   - **Modifikasi yang telah dibuat:** Menggunakan antarmuka `CarService` di `CarController` dan menginjeksi dependensi menggunakan Spring's `@Autowired`.
+
+2. **Code Duplication**
+   - Tanpa SRP dan ISP, kode cenderung memiliki tanggung jawab ganda dan antarmuka besar, yang dapat menyebabkan duplikasi kode dan kesulitan dalam pemeliharaan. Misalnya, jika `CarService` memiliki terlalu banyak metode yang tidak terkait, klien akan dipaksa untuk mengimplementasikan atau menggunakan metode yang tidak mereka butuhkan.
+   - **Modifikasi yang telah dibuat:** Memisahkan tanggung jawab antara `CarController` dan `CarService`, serta membuat antarmuka `CarService` yang spesifik.
+
+3. **Difficulty in Extending Functionality**
+   - Tanpa OCP, setiap perubahan atau penambahan fitur baru akan memerlukan modifikasi pada kode yang ada, meningkatkan risiko bug dan kesalahan. Misalnya, menambahkan fitur baru ke `CarService` akan memerlukan perubahan pada antarmuka dan semua implementasinya.
+   - **Modifikasi yang telah dibuat:** Menggunakan antarmuka `CarService` yang dapat diimplementasikan oleh berbagai kelas, memungkinkan penambahan fitur baru tanpa mengubah kode yang ada.
+
+4. **Poor Readability and Maintainability**
+   - Tanpa SRP, kode menjadi sulit dibaca dan dipahami karena kelas dan metode memiliki terlalu banyak tanggung jawab. Ini membuat debugging dan pemeliharaan menjadi lebih sulit.
+   - **Modifikasi yang telah dibuat:** Memisahkan tanggung jawab antara `CarController` dan `CarService`, serta membuat antarmuka `CarService` yang spesifik.
