@@ -82,7 +82,7 @@ Setelah menulis unit test baru, saya mempelajari beberapa hal berikut:
 
 3. **Liskov Substitution Principle (LSP)**
    - Subkelas dapat menggantikan superclass mereka tanpa mengganggu fungsionalitas program. Misalnya, setiap implementasi `CarService` dapat digunakan di mana saja `CarService` diperlukan tanpa mempengaruhi logika aplikasi.
-   - **Modifikasi yang telah dibuat:** Memastikan bahwa setiap implementasi `CarService` dapat digunakan secara interchangeably tanpa mempengaruhi logika aplikasi. Contohnya, `CarServiceImpl` dan `InMemoryCarService` dapat digunakan di mana saja `CarService` diperlukan.
+   - **Modifikasi yang telah dibuat:** Memastikan bahwa setiap implementasi `CarService` dapat digunakan secara interchangeably tanpa mempengaruhi logika aplikasi. Contohnya, `CarServiceImpl` dapat digunakan di mana saja `CarService` diperlukan.
 
 4. **Interface Segregation Principle (ISP)**
    - Antarmuka yang besar dipecah menjadi antarmuka yang lebih kecil dan lebih spesifik. Misalnya, `CarService` hanya memiliki metode yang relevan dengan operasi mobil, sehingga klien tidak dipaksa untuk bergantung pada metode yang tidak mereka gunakan.
