@@ -127,3 +127,30 @@ Setelah menulis unit test baru, saya mempelajari beberapa hal berikut:
 4. **Poor Readability and Maintainability**
    - Tanpa SRP, kode menjadi sulit dibaca dan dipahami karena kelas dan metode memiliki terlalu banyak tanggung jawab. Ini membuat debugging dan pemeliharaan menjadi lebih sulit.
    - **Modifikasi yang telah dibuat:** Memisahkan tanggung jawab antara `CarController` dan `CarService`, serta membuat antarmuka `CarService` yang spesifik.
+
+## Module 4
+
+### Reflection on TDD Workflow
+
+Berdasarkan pertanyaan-pertanyaan reflektif yang diajukan oleh Percival (2017) dalam submodul "Principles and Best Practice of Testing", saya menemukan bahwa alur Test-Driven Development (TDD) memiliki manfaat tersendiri, antara lain:
+
+- **Pemahaman Kebutuhan Lebih Baik:** Dengan memulai dari pembuatan tes terlebih dahulu, saya lebih terdorong untuk memahami secara detail apa yang dibutuhkan oleh fitur. Hal ini membantu saya memecah masalah menjadi skenario-skenario yang lebih kecil dan jelas.
+- **Rasa Percaya Diri:** TDD memberikan rasa kepastian bahwa setiap fitur yang dibangun diuji secara menyeluruh. Setiap kali tes lulus, ada keyakinan bahwa fungsi tersebut bekerja sesuai dengan ekspektasi.
+- **Deteksi Dini atas Bug:** Dengan menulis tes sebelum implementasi, saya lebih mudah mendeteksi bug atau edge case yang mungkin terlewat, sehingga mengurangi potensi regresi di masa mendatang.
+- **Area Perbaikan:** Terkadang, menulis tes dalam TDD memerlukan refleksi mendalam mengenai skenario yang belum tertangani. Di masa depan, saya akan berusaha mendokumentasikan lebih banyak kasus tepi dan mengintegrasikan feedback loop yang lebih cepat untuk menyesuaikan tes dengan perubahan persyaratan.
+
+Secara keseluruhan, TDD terbukti sangat berguna. Namun, saya perlu terus memperbaiki cakupan kasus uji dan memastikan bahwa setiap perubahan baru juga diiringi dengan pembaruan tes yang relevan.
+
+### Reflection on the F.I.R.S.T. Principles in Unit Tests
+
+Dalam pembuatan unit test di Tutorial, saya berusaha mengikuti prinsip F.I.R.S.T. (Fast, Independent, Repeatable, Self-validating, dan Timely). Berikut beberapa evaluasi dan area perbaikan:
+
+- **Fast:** Tes saya umumnya berjalan cepat, namun ketika skenario menjadi lebih kompleks, saya perlu lebih pastikan bahwa tidak ada setup yang berlebihan yang dapat memperlambat eksekusi tes.
+- **Independent:** Setiap tes telah dibuat sehingga tidak bergantung satu sama lain, namun saya harus lebih hati-hati dalam menggunakan data dan mock agar tidak terjadi tumpang tindih antara tes.
+- **Repeatable:** Saya memastikan bahwa lingkungan tes selalu di-reset pada `@BeforeEach`. Namun, ada kalanya konfigurasi test environment dapat diperbaiki untuk menjamin repeatability yang lebih tinggi.
+- **Self-validating:** Tes telah menggunakan assertion yang jelas untuk memvalidasi hasil. Saya harus terus memastikan bahwa setiap tes dapat dengan sendirinya menentukan apakah hasil yang diperoleh sesuai dengan yang diharapkan, tanpa intervensi manual.
+- **Timely:** Unit test dibuat tepat ketika mengembangkan fitur, tetapi saya berharap untuk menerapkan lebih banyak tes pada tahap desain awal untuk menangkap lebih banyak edge case sejak awal pengembangan.
+
+Pada umumnya, saya merasa sudah cukup baik dalam mengikuti prinsip F.I.R.S.T., namun akan lebih baik lagi jika saya dapat meningkatkan dokumentasi setiap tes serta terus melakukan review berkala untuk memastikan bahwa semua prinsip tetap terpenuhi seiring dengan bertambahnya kompleksitas fitur.
+
+Dengan refleksi ini, saya dapat mengidentifikasi area yang perlu diperbaiki untuk pengembangan dan pengujian selanjutnya, sehingga kualitas kode dan efektivitas pengujian terus meningkat.
