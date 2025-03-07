@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.util.Map;
 import java.util.Arrays;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 
 @Builder
 @Getter
@@ -20,8 +21,9 @@ public class Payment {
     public Payment(String id, Order order, String method, Map<String, String> paymentData) {
         this.id = id;
         this.method = method;
-        this.status = "PENDING";
-        this.paymentData = paymentData;
+        this.paymentData = paymentData;  
+        this.status = PaymentStatus.PENDING.getValue();
+
         if (order == null) {
             throw new IllegalArgumentException();
         } else {
@@ -30,11 +32,14 @@ public class Payment {
     }
     public Payment(String id, Order order, String method, Map<String, String> paymentData, String status) {
         this(id, order, method, paymentData);
-        String[] statusList = {"PENDING", "SUCCESS", "REJECTED"};
-        if(Arrays.stream(statusList).noneMatch(item -> item.equals(status))) {
-            throw new IllegalArgumentException();
-        } else {
+        this.setStatus(status);
+    }
+
+    public void setStatus(String status) {
+        if (PaymentStatus.contains(status)) {
             this.status = status;
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 }
