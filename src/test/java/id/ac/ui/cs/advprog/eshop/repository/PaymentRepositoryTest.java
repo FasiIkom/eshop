@@ -1,16 +1,20 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
-import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
-import id.ac.ui.cs.advprog.eshop.model.Order;
-import id.ac.ui.cs.advprog.eshop.model.Payment;
-import id.ac.ui.cs.advprog.eshop.model.Product;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
+import id.ac.ui.cs.advprog.eshop.model.Order;
+import id.ac.ui.cs.advprog.eshop.model.Payment;
+import id.ac.ui.cs.advprog.eshop.model.Product;
 
 public class PaymentRepositoryTest {
     PaymentRepository paymentRepository;
@@ -42,7 +46,7 @@ public class PaymentRepositoryTest {
         payments.add(payment2);
 
         Map<String, String> paymentData3 = new HashMap<>();
-        paymentData3.put("Masjid UI", "30000");
+        paymentData3.put("Masjid UI", "30000"); 
         Payment payment3 = new Payment("13652556-012a-4c07-b546-54eb1396d75d", order, "Cash on Delivery", paymentData3);
         payments.add(payment3);
     }
