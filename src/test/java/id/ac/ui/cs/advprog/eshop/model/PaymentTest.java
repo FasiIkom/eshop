@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.*;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 
 public class PaymentTest {
     private Order order;
@@ -57,7 +58,7 @@ public class PaymentTest {
         assertEquals(this.order, payment.getOrder());
         assertEquals("Cash on Delivery", payment.getMethod());
         assertEquals(paymentData, payment.getPaymentData());
-        assertEquals("PENDING", payment.getStatus());
+        assertEquals(PaymentStatus.PENDING.getValue(), payment.getStatus());
     }
 
     @Test
@@ -65,8 +66,8 @@ public class PaymentTest {
         Map <String, String> paymentData = new HashMap<>();
         paymentData.put("Masjid Kukusan", "10000");
         Payment payment = new Payment("00000000-0000-0000-0000-000000000000", this.order, 
-            "Cash on Delivery", paymentData, "SUCCESS");
-        assertEquals("SUCCESS", payment.getStatus());
+            "Cash on Delivery", paymentData, PaymentStatus.SUCCESS.getValue());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
     }
 
     @Test
@@ -82,9 +83,9 @@ public class PaymentTest {
     void testSetStatusToRejected() {
         Map <String, String> paymentData = new HashMap<>();
         Payment payment = new Payment("00000000-0000-0000-0000-000000000000", this.order, 
-            "Cash on Delivery", paymentData, "SUCCESS");
-        payment.setStatus("REJECTED");
-        assertEquals("REJECTED", payment.getStatus());
+            "Cash on Delivery", paymentData, PaymentStatus.SUCCESS.getValue());
+        payment.setStatus(PaymentStatus.REJECTED.getValue());
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
     }
 
     @Test
