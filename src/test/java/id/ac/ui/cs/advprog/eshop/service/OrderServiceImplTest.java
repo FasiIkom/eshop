@@ -4,18 +4,27 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import id.ac.ui.cs.advprog.eshop.repository.OrderRepository;
 import id.ac.ui.cs.advprog.eshop.model.Order;
+
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
+
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
+
 import id.ac.ui.cs.advprog.eshop.model.Product;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.*;
+
 import id.ac.ui.cs.advprog.eshop.enums.OrderStatus;
 
 @ExtendWith(MockitoExtension.class)
@@ -96,7 +105,7 @@ public class OrderServiceImplTest {
     void testUpdateStatusInvalidOrderID() {
         doReturn(null).when(orderRepository).findById("zczc");
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(NoSuchElementException.class, () -> {
             orderService.updateStatus("zczc", OrderStatus.SUCCESS.getValue());
         });
 
@@ -133,7 +142,7 @@ public class OrderServiceImplTest {
     @Test
     void testFindAllByAuthorIfAllLowercase() {
         Order order = orders.get(1);
-        doReturn(orders).when(orderRepository)
+        doReturn(new ArrayList<Order>()).when(orderRepository)
             .findAllByAuthor(order.getAuthor().toLowerCase());
 
         List<Order> result = orderService.findAllByAuthor(
