@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.service;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
 import id.ac.ui.cs.advprog.eshop.model.Product;
@@ -34,6 +35,7 @@ public class PaymentServiceImplTest {
 
     @BeforeEach
     void setUp() {
+        // Create an order used for Payment tests
         List<Product> products = new ArrayList<>();
         Product product = new Product();
         product.setProductId("be928e9f-1c39-270e-8860-71af6af63ba1");
@@ -51,7 +53,7 @@ public class PaymentServiceImplTest {
 
         Map<String, String> paymentData2 = new HashMap<>();
         paymentData2.put("Masjid Beji", "20000");
-        Payment payment2 = new Payment("13652556-012a-4c07-b546-54eb1396d75c", order, "Cash on Delivery", paymentData2, "SUCCESS");
+        Payment payment2 = new Payment("13652556-012a-4c07-b546-54eb1396d75c", order, "Cash on Delivery", paymentData2, PaymentStatus.SUCCESS.getValue());
         payments.add(payment2);
 
         Map<String, String> paymentData3 = new HashMap<>();
@@ -74,6 +76,8 @@ public class PaymentServiceImplTest {
     void testCreatePaymentIfAlreadyExist() {
         Payment payment = payments.get(1);
         doReturn(payment).when(paymentRepository).findById(payment.getId());
+
+        // Assuming createPayment returns null if payment already exists
         assertNull(paymentService.createPayment(payment));
         verify(paymentRepository, times(0)).save(payment);
     }
@@ -81,13 +85,13 @@ public class PaymentServiceImplTest {
     @Test
     void testUpdateStatus() {
         Payment payment = payments.get(1);
-        Payment updatedPayment = new Payment(payment.getId(), payment.getOrder(), payment.getMethod(), payment.getPaymentData(), "REJECTED");
+        Payment updatedPayment = new Payment(payment.getId(), payment.getOrder(), payment.getMethod(), payment.getPaymentData(), PaymentStatus.REJECTED.getValue());
         doReturn(payment).when(paymentRepository).findById(payment.getId());
         doReturn(updatedPayment).when(paymentRepository).save(any(Payment.class));
 
-        Payment result = paymentService.updateStatus(payment.getId(), "REJECTED");
+        Payment result = paymentService.updateStatus(payment.getId(), PaymentStatus.REJECTED.getValue());
         assertEquals(payment.getId(), result.getId());
-        assertEquals("REJECTED", result.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
         verify(paymentRepository, times(1)).save(any(Payment.class));
     }
 
@@ -107,7 +111,7 @@ public class PaymentServiceImplTest {
         doReturn(null).when(paymentRepository).findById("non-existent-id");
 
         assertThrows(NoSuchElementException.class, () -> {
-            paymentService.updateStatus("non-existent-id", "SUCCESS");
+            paymentService.updateStatus("non-existent-id", PaymentStatus.SUCCESS.getValue());
         });
         verify(paymentRepository, times(0)).save(any(Payment.class));
     }
@@ -124,6 +128,7 @@ public class PaymentServiceImplTest {
     @Test
     void testFindByIdIfIdNotFound() {
         doReturn(null).when(paymentRepository).findById("non-existent-id");
+
         assertNull(paymentService.findById("non-existent-id"));
     }
 
